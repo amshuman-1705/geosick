@@ -3,7 +3,6 @@ import { GlobeIcon, LockClosedIcon, UserIcon } from './icons';
 import { WaveBackground } from './WaveBackground';
 import { LanguageSelector } from './LanguageSelector';
 import { useI18n } from './I18n';
-import { LiveHealthAlerts } from './LiveHealthAlerts';
 
 interface HomePageProps {
   onLoginClick: () => void;
@@ -61,9 +60,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onLoginClick, onAboutClick, 
                       </button>
                   </div>
             </div>
-
-            {/* Live Alerts Section */}
-            <LiveHealthAlerts />
 
           </main>
       </div>

@@ -18,7 +18,6 @@ import { HealthForecast } from './components/HealthForecast';
 import { AdminDashboardPage } from './components/AdminDashboardPage';
 import { ProfilePage } from './components/ProfilePage';
 import { Sidebar } from './components/Sidebar';
-import { AlertsPage } from './components/AlertsPage';
 import { WaterLogPage } from './components/WaterLogPage';
 import { Bars3Icon, GlobeIcon } from './components/icons';
 import { FeedbackModal } from './components/FeedbackModal';
@@ -232,8 +231,6 @@ function AppContent() {
                     onCheckSymptoms={() => setCurrentPage('symptom-checker')}
                     onWaterLog={() => setCurrentPage('water-log')}
                 />;
-            case 'live-alerts':
-                return <AlertsPage />;
             case 'image-analysis':
                 return <ImageAnalysisPage
                     onBack={() => setCurrentPage('welcome')}

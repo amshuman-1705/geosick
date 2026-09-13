@@ -36,19 +36,21 @@ export const GlobePage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const { language } = useI18n();
 
   useEffect(() => {
-    const handleResize = () => {
-      if (containerRef.current) {
-        setGlobeDimensions({
-          width: containerRef.current.offsetWidth,
-          height: containerRef.current.offsetHeight,
-        });
-      }
+    const container = containerRef.current;
+    if (!container) return;
+
+    const updateDimensions = () => {
+      setGlobeDimensions({
+        width: container.offsetWidth,
+        height: container.offsetHeight,
+      });
     };
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
+    updateDimensions();
+    const resizeObserver = new ResizeObserver(updateDimensions);
+    resizeObserver.observe(container);
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => resizeObserver.disconnect();
   }, []);
 
   useEffect(() => {

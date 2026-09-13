@@ -9,7 +9,6 @@ export type Page =
   | 'about'
   | 'contact'
   | 'explore'
-  | 'live-alerts'
   | 'health-briefing'
   | 'activity-history'
   | 'profile'
@@ -135,27 +134,9 @@ export interface ChatMessage {
   text: string;
 }
 
-export type AlertCategory = 'disease' | 'air' | 'heat' | 'environmental' | 'other';
-
 export interface AlertSource {
     uri: string;
     title: string;
-}
-
-export interface Alert {
-    id: string;
-    fetchedAt: number;
-    title: string;
-    location: string;
-    country: string;
-    locationDetails?: string;
-    category: AlertCategory;
-    detailedInfo: string;
-    threatAnalysis: string;
-    lat?: number;
-    lng?: number;
-    sources: AlertSource[];
-    source: 'global' | 'local';
 }
 
 export interface DiseaseReport {
