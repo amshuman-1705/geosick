@@ -81,7 +81,7 @@ export const analyzeLocationByCoordinates = async (lat: number, lng: number, lan
 
     const [analysisResult, imageResult] = await Promise.allSettled([
         ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-3.6-flash',
             contents: contents,
             config: {
                 responseMimeType: "application/json",
@@ -190,7 +190,7 @@ export const analyzeImage = async (base64ImageData: string, language: string): P
     };
 
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: { parts: [imagePart, textPart] },
         config: {
             responseMimeType: "application/json",
@@ -255,7 +255,7 @@ export const analyzePrescription = async (base64ImageData: string, language: str
     };
 
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: { parts: [imagePart, textPart] },
         config: {
             responseMimeType: "application/json",
@@ -325,7 +325,7 @@ Your response MUST be a single, valid JSON object conforming to the provided sch
 Respond in ${language}.`;
 
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: systemPrompt,
         config: {
             responseMimeType: "application/json",
@@ -361,7 +361,7 @@ export const geocodeLocation = async (locationQuery: string): Promise<{ lat: num
     }
     
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: `Find the precise geographic coordinates (latitude and longitude) and the full, official name for the following location: "${locationQuery}". Prioritize accuracy. Respond only with the JSON object.`,
         config: {
             responseMimeType: "application/json",
@@ -403,7 +403,7 @@ export const findFacilitiesByCoordinates = async (coords: { lat: number; lng: nu
     }
 
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: `You are a highly accurate, real-world mapping and location service. Your sole purpose is to identify real, existing medical facilities. Do not invent, hallucinate, or guess any locations. If you are unsure, return an empty list. Find up to 10 of the nearest medical facilities (types: 'Hospital', 'Clinic', 'Pharmacy') to the coordinates latitude ${coords.lat}, longitude ${coords.lng}. Provide their official names and precise coordinates. Return only real-world, verifiable locations.`,
         config: {
             responseMimeType: "application/json",
@@ -457,7 +457,7 @@ export const getHealthForecast = async (coords: { lat: number; lng: number }, la
      }
 
      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: `Generate a daily health forecast for the location at latitude ${coords.lat}, longitude ${coords.lng}. Identify the location name. Include a summary, at least 3 key risk factors (like Air Quality, UV Index, Pollen, Mosquito Activity) with a risk level ('Low', 'Moderate', 'High', 'Very High'), and provide simple, actionable recommendations. The entire response, including all text values inside the JSON, must be in the ${language} language.`,
         config: {
             responseMimeType: "application/json",
@@ -518,7 +518,7 @@ export const analyzeMentalHealth = async (answers: Record<string, string>, langu
     Your response must be in JSON format conforming to the provided schema. All text values within the JSON must be in ${language}.`;
     
      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: prompt,
         config: {
             responseMimeType: "application/json",
@@ -572,7 +572,7 @@ export const analyzeSymptoms = async (symptoms: string, language: string): Promi
     Your response must be in JSON format conforming to the provided schema. All text values within the JSON must be in ${language}.`;
 
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: prompt,
         config: {
             responseMimeType: "application/json",
@@ -617,7 +617,7 @@ export const getLiveHealthAlerts = async (forceRefresh: boolean = false): Promis
     }
 
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: "Act as a global health surveillance system. Use Google Search to find 8 of the most recent and significant real-world public health alerts from around the world from the last 7 days. These can include disease outbreaks, severe air quality warnings, extreme weather events with health implications (like heatwaves), or major environmental health hazards. Extract the key information for each alert.",
         config: {
             tools: [{ googleSearch: {} }],
@@ -627,7 +627,7 @@ export const getLiveHealthAlerts = async (forceRefresh: boolean = false): Promis
     // The response text from a grounded model is not guaranteed to be JSON.
     // We send a second, non-grounded request to structure the data.
     const structuringResponse = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: `Based on the following information, format it into a valid JSON array that adheres to the provided schema. Ensure every field is filled accurately. Text: ${response.text}`,
         config: {
             responseMimeType: "application/json",
@@ -685,7 +685,7 @@ export const getLocalHealthAlerts = async (lat: number, lng: number, forceRefres
     }
 
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: `Act as a local health surveillance system. Use Google Search to find up to 4 of the most recent and significant public health alerts specifically relevant to the city or region at latitude ${lat}, longitude ${lng} from the last 7 days. Focus on localized events like specific air quality warnings, local disease clusters, or environmental issues for this area. Extract key information for each alert.`,
         config: {
             tools: [{ googleSearch: {} }],
@@ -698,7 +698,7 @@ export const getLocalHealthAlerts = async (lat: number, lng: number, forceRefres
     }
     
     const structuringResponse = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: `Based on the following information, format it into a valid JSON array that adheres to the provided schema. If there is no information, return an empty array. Ensure every field is filled accurately. Text: ${response.text}`,
         config: {
             responseMimeType: "application/json",
@@ -794,7 +794,7 @@ export const getCityHealthSnapshot = async (cityName: string, country: string, l
     const groundingPrompt = `Act as a public health intelligence analyst. Your task is to use Google Search to gather the most recent, publicly available information (from news, health ministries, WHO reports from the last 30-60 days) on infectious and prevalent diseases for the city of ${cityName}, ${country}. Your goal is to create a concise public health snapshot. Collect information on the 3-4 most discussed diseases, including a summary, trend, estimated cases, and affected demographics. Also find a brief overall summary. The response must be in ${language}.`;
 
     const groundingResponse = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: groundingPrompt,
         config: {
             tools: [{ googleSearch: {} }],
@@ -815,7 +815,7 @@ Instructions:
 `;
     
     const structuringResponse = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         contents: structuringPrompt,
         config: {
             responseMimeType: "application/json",
